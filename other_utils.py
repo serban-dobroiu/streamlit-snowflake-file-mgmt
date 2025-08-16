@@ -1,6 +1,7 @@
 from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from openpyxl.utils import get_column_letter
+from openpyxl.comments import Comment
 from io import BytesIO
 
 from snowflake_utils import get_table_columns
@@ -29,6 +30,11 @@ def create_excel_template(snowflake_session, table_name, worksheet_title: str):
     table.tableStyleInfo = style
 
     ws.add_table(table)
+
+    for cell in ws[1]:
+        if cell.value == "DEPLOYMENT_DATE":
+            comment = Comment(text='The accepted format is YYYY-MM-DD', author='')
+            cell.comment = comment
 
     io = BytesIO()
     wb.save(io)
