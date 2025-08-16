@@ -80,7 +80,7 @@ if selected_bmt:
                             print(f"File type is: {uploaded_file.type}")
 
                 with tab2:
-                    template_file = create_excel_template(snowflake_session=session, table_name="DEV_SOME_DB.BMT.STG_ACCOUNTS", worksheet_title="Account_Roster")
+                    template_file = create_excel_template(snowflake_session=session, table_name="DEV_SOME_DB.BMT.STG_ACCOUNT_ROSTER", worksheet_title="Account_Roster")
                     st.download_button(label="Download a template", data=template_file, file_name="Account Roster.xlsx", on_click='ignore', type="secondary", icon=":material/download:")
 
                 with tab3:
