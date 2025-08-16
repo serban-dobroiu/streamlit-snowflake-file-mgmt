@@ -33,7 +33,7 @@ def create_excel_template(snowflake_session, table_name, worksheet_title: str):
 
     for cell in ws[1]:
         if cell.value == "DEPLOYMENT_DATE":
-            comment = Comment(text='The accepted format is YYYY-MM-DD', author='')
+            comment = Comment(text="The accepted format is YYYY-MM-DD.\nIf not deployed use 9999-12-31.", author='')
             cell.comment = comment
 
     io = BytesIO()
