@@ -1,6 +1,6 @@
 from snowflake.snowpark import Session
 from snowflake.snowpark.context import get_active_session
-from other_utils import create_excel_template
+from other_utils import convert_excel_to_csv, create_excel_template
 from utils import return_element_after_stage_validation
 
 import streamlit as st
@@ -78,6 +78,7 @@ if selected_bmt:
                         if uploaded_file:
                             print(f"Uploaded file id id: {uploaded_file.file_id}")
                             print(f"File type is: {uploaded_file.type}")
+                            convert_excel_to_csv(uploaded_file=uploaded_file)
 
                 with tab2:
                     template_file = create_excel_template(snowflake_session=session, table_name="DEV_SOME_DB.BMT.STG_ACCOUNT_ROSTER", worksheet_title="Account_Roster")
