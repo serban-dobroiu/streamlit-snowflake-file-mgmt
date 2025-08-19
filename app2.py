@@ -27,65 +27,67 @@ bmt_options = ["Account Roster", "CSV BMT"]
 
 ss = st.session_state
 
-selected_bmt = st.segmented_control(label="Which BMT would you like to manage?", options=bmt_options, selection_mode="single", width=1000, key="selected_bmt")
+st.write(st.__version__)
 
-if selected_bmt:
+# selected_bmt = st.segmented_control(label="Which BMT would you like to manage?", options=bmt_options, selection_mode="single", width=1000, key="selected_bmt")
 
-    # st.text(validate_stage_exists(session=session, stage_name='DEV_SOME_DB.BMT.STAGE_ACCOUNT_ROSTER1'))
-    return_element_after_stage_validation(snowflake_session=session, stage_name='DEV_SOME_DB.BMT.STAGE_ACCOUNT_ROSTER')
+# if selected_bmt:
 
-    if ss.stage_info['stage_valid']:
-        # st.balloons()
+#     # st.text(validate_stage_exists(session=session, stage_name='DEV_SOME_DB.BMT.STAGE_ACCOUNT_ROSTER1'))
+#     return_element_after_stage_validation(snowflake_session=session, stage_name='DEV_SOME_DB.BMT.STAGE_ACCOUNT_ROSTER')
 
-        tab1, tab2, tab3, tab4 = st.tabs(["Upload", "Download a template", "View existing data", "View Stage Contents"])
-        # st.write(selected_bmt)
-        # print(f"Selected BMT from session state is : {ss.selected_bmt}")
+#     if ss.stage_info['stage_valid']:
+#         # st.balloons()
 
-        if ss.selected_bmt == "CSV BMT":
-            container = st.container(border=True)
+#         tab1, tab2, tab3, tab4 = st.tabs(["Upload", "Download a template", "View existing data", "View Stage Contents"])
+#         # st.write(selected_bmt)
+#         # print(f"Selected BMT from session state is : {ss.selected_bmt}")
 
-            with container:
-                with tab1:
-                    separator_container = st.container(border=True)
-                    default_separator_value: str = ","
-                    separator_value: str = default_separator_value
-                    with separator_container:
-                        custom_separator_toggle = st.toggle(label="I am using a custom **single char** separator", help="It is assumed that the separator in a comma. Toggle this to enter a different one.")
-                        if custom_separator_toggle:
-                            custom_separator_value = st.text_input(label="Custom separator", max_chars=1, placeholder="enter separator", width=200)
-                            if len(custom_separator_value) == 1:
-                                print(f"after toggle custom separator is: {custom_separator_value}")
-                                separator_value = custom_separator_value
-                                print(f"separator is: {separator_value}")
+#         if ss.selected_bmt == "CSV BMT":
+#             container = st.container(border=True)
+
+#             with container:
+#                 with tab1:
+#                     separator_container = st.container(border=True)
+#                     default_separator_value: str = ","
+#                     separator_value: str = default_separator_value
+#                     with separator_container:
+#                         custom_separator_toggle = st.toggle(label="I am using a custom **single char** separator", help="It is assumed that the separator in a comma. Toggle this to enter a different one.")
+#                         if custom_separator_toggle:
+#                             custom_separator_value = st.text_input(label="Custom separator", max_chars=1, placeholder="enter separator", width=200)
+#                             if len(custom_separator_value) == 1:
+#                                 print(f"after toggle custom separator is: {custom_separator_value}")
+#                                 separator_value = custom_separator_value
+#                                 print(f"separator is: {separator_value}")
                                 
-                        file_types = ["csv", "xlsx"] # remove CSV 
-                        uploaded_file = st.file_uploader(label="Choose file", type=file_types, accept_multiple_files=False, width=400)
-                        # if uploaded_file_meta not in st.session_state:
-                        #     st.session_state.uploaded_file_meta = 
-                        if uploaded_file:
-                            print(f"Uploaded file id id: {uploaded_file.file_id}")
-                            print(f"File type is: {uploaded_file.type}")
+#                         file_types = ["csv", "xlsx"] # remove CSV 
+#                         uploaded_file = st.file_uploader(label="Choose file", type=file_types, accept_multiple_files=False, width=400)
+#                         # if uploaded_file_meta not in st.session_state:
+#                         #     st.session_state.uploaded_file_meta = 
+#                         if uploaded_file:
+#                             print(f"Uploaded file id id: {uploaded_file.file_id}")
+#                             print(f"File type is: {uploaded_file.type}")
 
-        if ss.selected_bmt == "Account Roster":
-            container = st.container(border=True)
+#         if ss.selected_bmt == "Account Roster":
+#             container = st.container(border=True)
 
-            with container:
-                with tab1:                                
-                        file_types = ["xlsx"] # remove CSV 
-                        uploaded_file = st.file_uploader(label="Choose file", type=file_types, accept_multiple_files=False, width=400)
-                        # if uploaded_file_meta not in st.session_state:
-                        #     st.session_state.uploaded_file_meta = 
-                        if uploaded_file:
-                            print(f"Uploaded file id id: {uploaded_file.file_id}")
-                            print(f"File type is: {uploaded_file.type}")
-                            convert_excel_to_csv(uploaded_file=uploaded_file)
+#             with container:
+#                 with tab1:                                
+#                         file_types = ["xlsx"] # remove CSV 
+#                         uploaded_file = st.file_uploader(label="Choose file", type=file_types, accept_multiple_files=False, width=400)
+#                         # if uploaded_file_meta not in st.session_state:
+#                         #     st.session_state.uploaded_file_meta = 
+#                         if uploaded_file:
+#                             print(f"Uploaded file id id: {uploaded_file.file_id}")
+#                             print(f"File type is: {uploaded_file.type}")
+#                             convert_excel_to_csv(uploaded_file=uploaded_file)
 
-                with tab2:
-                    template_file = create_excel_template(snowflake_session=session, table_name="DEV_SOME_DB.BMT.STG_ACCOUNT_ROSTER", worksheet_title="Account_Roster")
-                    st.download_button(label="Download a template", data=template_file, file_name="Account Roster.xlsx", on_click='ignore', type="secondary", icon=":material/download:")
+#                 with tab2:
+#                     template_file = create_excel_template(snowflake_session=session, table_name="DEV_SOME_DB.BMT.STG_ACCOUNT_ROSTER", worksheet_title="Account_Roster")
+#                     st.download_button(label="Download a template", data=template_file, file_name="Account Roster.xlsx", on_click='ignore', type="secondary", icon=":material/download:")
 
-                with tab3:
-                    st.dataframe(data=data)
+#                 with tab3:
+#                     st.dataframe(data=data)
 
 
-# st.write(ss.selected_bmt)
+# # st.write(ss.selected_bmt)
