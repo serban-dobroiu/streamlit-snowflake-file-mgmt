@@ -1,7 +1,7 @@
 from datetime import date, datetime
 import decimal
 from enum import Enum
-from pydantic import BaseModel, Field, field_validator, ValidationInfo
+from pydantic import BaseModel, Field, computed_field, field_validator, ValidationInfo
 
 class VettingOutcome(Enum):
     vetted_in = "Include"
@@ -24,6 +24,11 @@ class RosterEntryUpload(BaseModel):
     VETTED: VettingOutcome
     REMOVED: Removed
     DEPLOYMENT_DATE: date
+
+    @computed_field
+    @property
+    def ID(self) -> str:
+        return f"{self.ACCOUNT_ID}" + "_" + f"{self.PROGRAM_ID}"
 
     @field_validator("ACCOUNT_ID", mode="before")
     @classmethod
