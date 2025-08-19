@@ -54,7 +54,7 @@ def convert_excel_to_csv(uploaded_file: BytesIO):
 
     headers = [cell.value for cell in next(ws.rows)]
 
-    with open("Account_Roster.csv", mode = "w") as file_handle:
+    with open("Account_Roster.csv", mode = "w") as file_handle: # need to avoid saving file locally
         csv_writer = csv.DictWriter(file_handle, fieldnames=headers)
         csv_writer.writeheader()
         for row in ws.iter_rows(min_row=2):
@@ -62,7 +62,7 @@ def convert_excel_to_csv(uploaded_file: BytesIO):
             data = dict(zip(headers, values))
             valid_record = RosterEntryUpload(**data)
             print(valid_record)
-            csv_writer.writerow(valid_record.model_dump())
+            csv_writer.writerow(valid_record.model_dump(exclude="ID"))
     return file_handle
 
 # wb = Workbook()
