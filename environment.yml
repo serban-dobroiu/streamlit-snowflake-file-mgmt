@@ -6,3 +6,5 @@ dependencies:
   - snowflake-snowpark-python=
   - streamlit=
   - openpyxl=3.1.5
+  - pydantic=2.11.7
+  - pydantic_core=2.33.2
