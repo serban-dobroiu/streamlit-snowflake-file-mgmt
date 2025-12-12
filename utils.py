@@ -6,6 +6,8 @@ from streamlit.delta_generator import DeltaGenerator
 st_ss = st.session_state
 
 def validate_stage_exists(session: Session, stage_name: str) -> dict:
+    """
+    """
     stage_valid: bool = False
     stage_exists: str = 'Stage does not exist or is inaccessible'
     error_msg: str = str()
@@ -22,6 +24,8 @@ def validate_stage_exists(session: Session, stage_name: str) -> dict:
         return stage_info
     
 def return_element_after_stage_validation(snowflake_session: Session, stage_name: str):
+    """
+    """
     session = snowflake_session
     stage_name = stage_name
     stage_info = validate_stage_exists(session=session, stage_name=stage_name)
